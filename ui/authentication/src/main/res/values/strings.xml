@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="google_sign_in_label">Sign in With Google</string>
+    <string name="google_sign_in_description">Google Login</string>
+</resources>

@@ -1,4 +1,4 @@
-package com.nicolas.sagon.mailSorter.ui.theme
+package com.nicolas.sagon.core.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
