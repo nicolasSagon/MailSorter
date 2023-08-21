@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.nicolas.sagon.mailSorter.ui.swipeableCardLayout.dummyData.CardContent
 import com.nicolas.sagon.mailSorter.ui.swipeableCardLayout.dummyData.getCardTestData
 import com.nicolas.sagon.mailSorter.ui.swipeableCardLayout.SwipeableCardLayout
+import com.nicolas.sagon.mailSorter.ui.swipeableCardLayout.dummyData.DummyLoadMoreDataCard
 import com.nicolas.sagon.mailSorter.ui.swipeableCardLayout.dummyData.DummyNoMoreDataCard
 import com.nicolas.sagon.mailSorter.ui.swipeableCardLayout.dummyData.DummySwipeableCard
 import com.nicolas.sagon.mailSorter.ui.theme.MailSorterTheme
@@ -34,13 +35,14 @@ class MainActivity : ComponentActivity() {
             MailSorterTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    SwipeableCardLayout(data = cardList, content = {
+                    SwipeableCardLayout(data = cardList, dataLoadThreshold = 5, content = {
                         DummySwipeableCard(it)
                     }, noMoreData = {
                         DummyNoMoreDataCard()
+                    }, loadingMoreDataCard = {
+                        DummyLoadMoreDataCard()
                     }, onSwipe = { swipeEvent, data ->
                         Log.d("SwipeableCardLayout", "Card swiped to $swipeEvent : $data")
                     })

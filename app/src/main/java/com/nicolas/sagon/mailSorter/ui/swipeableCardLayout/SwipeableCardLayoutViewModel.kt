@@ -1,5 +1,6 @@
 package com.nicolas.sagon.mailSorter.ui.swipeableCardLayout
 
+import android.util.Log
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -7,8 +8,9 @@ import kotlinx.coroutines.flow.update
 import kotlin.math.abs
 
 class SwipeableCardLayoutViewModel<T>(
-    val swipeOffset: Float = 200f,
     data: List<T>,
+    val dataLoadThreshold: Int,
+    val swipeOffset: Float = 200f,
 ) {
 
     private val _uiState = MutableStateFlow(SwipeableCardLayoutState(dataList = data))
@@ -78,6 +80,17 @@ class SwipeableCardLayoutViewModel<T>(
             currentState.copy(
                 currentCardIndex = currentState.currentCardIndex + 1
             )
+        }
+        if (
+            _uiState.value.currentCardIndex + 1 + dataLoadThreshold > _uiState.value.dataList.size
+            && !_uiState.value.isLoadingMoreData
+        ) {
+            Log.d("LOAD", "Need to load more data")
+            _uiState.update { currentState ->
+                currentState.copy(
+                    isLoadingMoreData = true
+                )
+            }
         }
     }
 

@@ -5,7 +5,8 @@ data class SwipeableCardLayoutState<T>(
     val touchableCardOffset: Float = 0f,
     val initDragPosition: Float = 0f,
     val dataList: List<T>,
-    val currentCardIndex: Int = 0
+    val currentCardIndex: Int = 0,
+    val isLoadingMoreData: Boolean = false,
 )
 
 enum class AnimationState {

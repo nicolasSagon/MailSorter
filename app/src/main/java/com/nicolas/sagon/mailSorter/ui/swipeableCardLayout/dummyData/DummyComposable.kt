@@ -22,3 +22,10 @@ fun DummyNoMoreDataCard() {
         Text(text = "No more data", textAlign = TextAlign.Center, modifier = Modifier.fillMaxSize())
     }
 }
+
+@Composable
+fun DummyLoadMoreDataCard() {
+    Card {
+        Text(text = "LoadingMoreData", textAlign = TextAlign.Center, modifier = Modifier.fillMaxSize())
+    }
+}

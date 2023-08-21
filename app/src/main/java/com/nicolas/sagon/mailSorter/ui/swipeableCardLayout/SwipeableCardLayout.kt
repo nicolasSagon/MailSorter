@@ -26,6 +26,7 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.nicolas.sagon.mailSorter.ui.swipeableCardLayout.dummyData.DummyLoadMoreDataCard
 import com.nicolas.sagon.mailSorter.ui.swipeableCardLayout.dummyData.DummyNoMoreDataCard
 import com.nicolas.sagon.mailSorter.ui.swipeableCardLayout.dummyData.DummySwipeableCard
 import com.nicolas.sagon.mailSorter.ui.swipeableCardLayout.dummyData.getCardTestData
@@ -40,12 +41,14 @@ fun <T> SwipeableCardLayout(
     data: List<T>,
     content: @Composable (data: T) -> Unit,
     noMoreData: @Composable () -> Unit,
+    loadingMoreDataCard: @Composable () -> Unit,
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
+    dataLoadThreshold: Int = 2,
     onSwipe: (swipeEvent: SwipeEvent, data: T) -> Unit = { _, _ -> },
 ) {
 
     val swipeableCardLayoutViewModel by remember {
-        mutableStateOf(SwipeableCardLayoutViewModel(data = data))
+        mutableStateOf(SwipeableCardLayoutViewModel(data = data, dataLoadThreshold = dataLoadThreshold))
     }
     val swipeableCardLayoutState by swipeableCardLayoutViewModel.uiState.collectAsState()
 
@@ -78,7 +81,11 @@ fun <T> SwipeableCardLayout(
             val currentCard = swipeableCardLayoutViewModel.getCurrentCardData()
 
             if (nextCard == null && currentCard == null) {
-                noMoreData()
+                if (swipeableCardLayoutState.isLoadingMoreData) {
+                    loadingMoreDataCard()
+                } else {
+                    noMoreData()
+                }
             } else {
                 if (nextCard !== null) {
                     AnimatedCard(
@@ -187,6 +194,9 @@ fun SwipeableCardLayoutPreview() {
                 DummySwipeableCard(it)
             }, noMoreData = {
                 DummyNoMoreDataCard()
+            },
+            loadingMoreDataCard = {
+                DummyLoadMoreDataCard()
             })
         }
     }
