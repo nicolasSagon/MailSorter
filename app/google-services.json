@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "60191999194",
+    "project_id": "sortmymail-393412",
+    "storage_bucket": "sortmymail-393412.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:60191999194:android:e1bfd19ef7c596ed2911e3",
+        "android_client_info": {
+          "package_name": "com.nicolas.sagon.mailSorter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "60191999194-t7uigfa2gcd1tlhafctb0lf52s4jbrog.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nicolas.sagon.mailSorter",
+            "certificate_hash": "969361dffaafe9531f02732da3038243f657bcd1"
+          }
+        },
+        {
+          "client_id": "60191999194-jffbho1hafugiau6thr70f8vkf6k9efs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyDQ-v_fUKHivLBMZQjpADBKid1pXnzZ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "60191999194-jffbho1hafugiau6thr70f8vkf6k9efs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

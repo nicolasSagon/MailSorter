@@ -1,4 +1,4 @@
-package com.nicolas.sagon.mailSorter.ui.theme
+package com.nicolas.sagon.core.theme
 
 import android.app.Activity
 import android.os.Build
