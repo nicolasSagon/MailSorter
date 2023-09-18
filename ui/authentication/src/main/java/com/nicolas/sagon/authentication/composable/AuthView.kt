@@ -31,10 +31,6 @@ fun AuthView(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 when (state) {
-                    is AuthenticationState.UserConnected -> {
-                        Text("User : ${state.user.email} with token : ${state.user.idToken} is connected")
-                    }
-
                     is AuthenticationState.Error -> {
                         Text("Error while connecting the user")
                         SignInGoogleButton(onclick = onClick)
