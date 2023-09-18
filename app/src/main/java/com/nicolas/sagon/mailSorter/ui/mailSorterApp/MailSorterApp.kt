@@ -15,6 +15,7 @@ import com.nicolas.sagon.authentication.screen.AuthenticationScreen
 import com.nicolas.sagon.authentication.viewModel.AuthenticationViewModel
 import com.nicolas.sagon.core.model.Screen
 import com.nicolas.sagon.core.navigation.getScreenNameRes
+import com.nicolas.sagon.home.screen.HomeScreen
 import com.nicolas.sagon.mailSorter.ui.AppTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,15 +38,20 @@ fun MailSorterApp() {
 
         NavHost(
             navController = navHostController,
-            startDestination = Screen.LoginScreen.screenName,
+            startDestination = navigationState.value.initScreen.screenName,
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = Screen.LoginScreen.screenName) {
                 val viewModel = hiltViewModel<AuthenticationViewModel>()
+                val state = viewModel.uiState.collectAsState()
                 AuthenticationScreen(
-                    viewModel = viewModel,
+                    state = state.value,
+                    onUserEvent = viewModel::onUserEvent,
                     modifier = Modifier.fillMaxSize()
                 )
+            }
+            composable(route = Screen.HomeScreen.screenName) {
+                HomeScreen()
             }
 
         }

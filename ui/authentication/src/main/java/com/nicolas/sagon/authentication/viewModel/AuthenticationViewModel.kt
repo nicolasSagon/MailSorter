@@ -7,6 +7,8 @@ import com.google.android.gms.tasks.Task
 import com.nicolas.sagon.authentication.event.AuthenticationEvents
 import com.nicolas.sagon.authentication.state.AuthenticationState
 import com.nicolas.sagon.authentification.useCase.RetrieveLastConnectedUser
+import com.nicolas.sagon.core.model.Screen
+import com.nicolas.sagon.core.useCase.NavigateToScreen
 import com.nicolas.sagon.core.viewModel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +20,7 @@ private const val TAG = "AuthenticationViewModel"
 @HiltViewModel
 class AuthenticationViewModel @Inject constructor(
     private val retrieveLastConnectedUser: RetrieveLastConnectedUser,
+    private val navigateToScreen: NavigateToScreen,
 ) : BaseViewModel<AuthenticationEvents>() {
     private val _uiState: MutableStateFlow<AuthenticationState> =
         MutableStateFlow(AuthenticationState.Loading)
@@ -25,15 +28,15 @@ class AuthenticationViewModel @Inject constructor(
 
     init {
         val user = retrieveLastConnectedUser()
-        _uiState.value = if (user == null) {
-            AuthenticationState.NotConnected
+        if (user == null) {
+            _uiState.value = AuthenticationState.NotConnected
         } else {
-            AuthenticationState.UserConnected(user)
+            navigateToScreen(Screen.HomeScreen)
         }
     }
 
     override fun onUserEvent(event: AuthenticationEvents) {
-        when(event) {
+        when (event) {
             is AuthenticationEvents.OnConnectActivityResult -> handleConnectActivityResult(event.task)
         }
     }
@@ -45,10 +48,10 @@ class AuthenticationViewModel @Inject constructor(
             if (gsa != null) {
                 Log.i(TAG, "User is connected : ${gsa.email}; ${gsa.displayName}")
                 val user = retrieveLastConnectedUser()
-                _uiState.value = if (user == null) {
-                    AuthenticationState.Error("User not connected")
+                if (user == null) {
+                    _uiState.value = AuthenticationState.Error("User not connected")
                 } else {
-                    AuthenticationState.UserConnected(user)
+                    navigateToScreen(Screen.HomeScreen)
                 }
             } else {
                 AuthenticationState.Error("Error with the google sign in method")
