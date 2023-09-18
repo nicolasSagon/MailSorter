@@ -10,6 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nicolas.sagon.authentication.activityResultContract.GoogleApiSignInContract
 import com.nicolas.sagon.authentication.composable.AuthView
+import com.nicolas.sagon.authentication.event.AuthenticationEvents
 import com.nicolas.sagon.authentication.viewModel.AuthenticationViewModel
 import com.nicolas.sagon.core.theme.MailSorterTheme
 
@@ -23,7 +24,7 @@ fun AuthenticationScreen(
 
     val authResultLauncher =
         rememberLauncherForActivityResult(contract = GoogleApiSignInContract()) { task ->
-            viewModel.onActivityResult(task)
+            viewModel.onUserEvent(AuthenticationEvents.OnConnectActivityResult(task = task))
         }
     AuthView(
         state = uiState,
