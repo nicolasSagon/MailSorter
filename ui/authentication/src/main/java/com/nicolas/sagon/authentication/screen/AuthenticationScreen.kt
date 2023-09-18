@@ -1,6 +1,5 @@
 package com.nicolas.sagon.authentication.screen
 
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -9,18 +8,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.android.gms.common.api.ApiException
 import com.nicolas.sagon.authentication.activityResultContract.GoogleApiSignInContract
 import com.nicolas.sagon.authentication.composable.AuthView
 import com.nicolas.sagon.authentication.viewModel.AuthenticationViewModel
 import com.nicolas.sagon.core.theme.MailSorterTheme
 
-private const val TAG = "AuthenticationScreen"
-
 @Composable
 fun AuthenticationScreen(
     modifier: Modifier = Modifier,
-    viewModel: AuthenticationViewModel = viewModel(),
+    viewModel: AuthenticationViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val signInRequestCode = 1
@@ -42,6 +38,7 @@ fun AuthenticationScreen(
 @Composable
 fun AuthenticationScreenPreview() {
     MailSorterTheme {
-        AuthenticationScreen(modifier = Modifier.fillMaxSize())
+        val viewModel: AuthenticationViewModel by viewModel()
+        AuthenticationScreen(modifier = Modifier.fillMaxSize(), viewModel = viewModel)
     }
 }

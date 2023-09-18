@@ -27,13 +27,4 @@ internal object AuthenticationModule {
     ): RetrieveLastConnectedUser {
         return RetrieveLastConnectedUser(authenticationRepository)
     }
-
-    /*    @Module
-        @InstallIn(SingletonComponent::class)
-        interface BindsModule {
-
-            @Binds
-            @Singleton
-            fun bindAuthenticationRepository(impl: GoogleAuthenticationRepository): AuthenticationRepository
-        }*/
 }
