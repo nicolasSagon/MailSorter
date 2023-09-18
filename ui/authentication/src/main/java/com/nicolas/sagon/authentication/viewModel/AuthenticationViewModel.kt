@@ -31,10 +31,6 @@ class AuthenticationViewModel @Inject constructor(
         }
     }
 
-    fun onConnectButtonClicked() {
-        _uiState.value = AuthenticationState.Loading
-    }
-
     fun onActivityResult(task: Task<GoogleSignInAccount>?) {
         try {
             val gsa = task?.getResult(ApiException::class.java)
