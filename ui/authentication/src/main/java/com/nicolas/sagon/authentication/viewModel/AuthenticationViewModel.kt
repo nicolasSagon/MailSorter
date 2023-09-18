@@ -1,12 +1,13 @@
 package com.nicolas.sagon.authentication.viewModel
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.nicolas.sagon.authentication.event.AuthenticationEvents
 import com.nicolas.sagon.authentication.state.AuthenticationState
 import com.nicolas.sagon.authentification.useCase.RetrieveLastConnectedUser
+import com.nicolas.sagon.core.viewModel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +18,7 @@ private const val TAG = "AuthenticationViewModel"
 @HiltViewModel
 class AuthenticationViewModel @Inject constructor(
     private val retrieveLastConnectedUser: RetrieveLastConnectedUser,
-) : ViewModel() {
+) : BaseViewModel<AuthenticationEvents>() {
     private val _uiState: MutableStateFlow<AuthenticationState> =
         MutableStateFlow(AuthenticationState.Loading)
     val uiState: StateFlow<AuthenticationState> = _uiState
@@ -31,7 +32,13 @@ class AuthenticationViewModel @Inject constructor(
         }
     }
 
-    fun onActivityResult(task: Task<GoogleSignInAccount>?) {
+    override fun onUserEvent(event: AuthenticationEvents) {
+        when(event) {
+            is AuthenticationEvents.OnConnectActivityResult -> handleConnectActivityResult(event.task)
+        }
+    }
+
+    private fun handleConnectActivityResult(task: Task<GoogleSignInAccount>?) {
         try {
             val gsa = task?.getResult(ApiException::class.java)
 
