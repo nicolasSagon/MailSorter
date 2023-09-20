@@ -1,6 +1,7 @@
 package com.nicolas.sagon.authentification.repository
 
 import android.content.Context
+import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.nicolas.sagon.authentification.model.GoogleSignInUser
 import com.nicolas.sagon.authentification.model.User

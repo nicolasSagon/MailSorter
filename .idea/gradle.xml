@@ -14,9 +14,11 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/data/authentication" />
+            <option value="$PROJECT_DIR$/data/mail" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/domain/authentication" />
-            <option value="$PROJECT_DIR$/domain/core" />
+            <option value="$PROJECT_DIR$/domain/mail" />
+            <option value="$PROJECT_DIR$/domain/navigation" />
             <option value="$PROJECT_DIR$/ui" />
             <option value="$PROJECT_DIR$/ui/authentication" />
             <option value="$PROJECT_DIR$/ui/core" />

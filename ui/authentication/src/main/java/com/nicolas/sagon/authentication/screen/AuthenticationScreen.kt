@@ -9,18 +9,24 @@ import com.nicolas.sagon.authentication.activityResultContract.GoogleApiSignInCo
 import com.nicolas.sagon.authentication.composable.AuthView
 import com.nicolas.sagon.authentication.event.AuthenticationEvents
 import com.nicolas.sagon.authentication.state.AuthenticationState
+import com.nicolas.sagon.authentification.model.GoogleSignInConfiguration
 import com.nicolas.sagon.core.theme.MailSorterTheme
 
 @Composable
 fun AuthenticationScreen(
     state: AuthenticationState,
+    googleSignInConfiguration: GoogleSignInConfiguration,
     onUserEvent: (event: AuthenticationEvents) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val signInRequestCode = 1
 
     val authResultLauncher =
-        rememberLauncherForActivityResult(contract = GoogleApiSignInContract()) { task ->
+        rememberLauncherForActivityResult(
+            contract = GoogleApiSignInContract(
+                googleSignInConfiguration
+            )
+        ) { task ->
             onUserEvent(AuthenticationEvents.OnConnectActivityResult(task = task))
         }
     AuthView(
@@ -39,6 +45,7 @@ fun AuthenticationScreenPreview() {
         AuthenticationScreen(
             modifier = Modifier.fillMaxSize(),
             state = AuthenticationState.NotConnected,
+            googleSignInConfiguration = GoogleSignInConfiguration("", ""),
             onUserEvent = {}
         )
     }
