@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 android {
@@ -38,6 +39,9 @@ dependencies {
     implementation project(path: ':domain:authentication')
     implementation 'com.google.android.gms:play-services-auth:20.6.0'
     implementation 'javax.inject:javax.inject:1'
+
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
