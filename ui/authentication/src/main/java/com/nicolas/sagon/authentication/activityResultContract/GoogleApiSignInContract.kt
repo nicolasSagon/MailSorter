@@ -9,13 +9,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
-import com.nicolas.sagon.authentication.R
+import com.nicolas.sagon.authentification.model.GoogleSignInConfiguration
 
-class GoogleApiSignInContract : ActivityResultContract<Int, Task<GoogleSignInAccount>?>() {
+class GoogleApiSignInContract(
+    private val googleSignInConfiguration: GoogleSignInConfiguration,
+) : ActivityResultContract<Int, Task<GoogleSignInAccount>?>() {
 
     override fun createIntent(context: Context, input: Int): Intent {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(context.getString(R.string.GOOGLE_OAUTH_CLIENT_ID))
+            .requestIdToken(googleSignInConfiguration.googleSignInClientId)
+            .requestServerAuthCode(googleSignInConfiguration.googleSignInClientId)
             .requestEmail()
             .requestScopes(Scope("https://mail.google.com/"))
             .build()

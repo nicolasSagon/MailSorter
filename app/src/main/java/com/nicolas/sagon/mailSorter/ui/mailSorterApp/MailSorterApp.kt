@@ -47,6 +47,7 @@ fun MailSorterApp() {
                 AuthenticationScreen(
                     state = state.value,
                     onUserEvent = viewModel::onUserEvent,
+                    googleSignInConfiguration = viewModel.googleSignInConfiguration,
                     modifier = Modifier.fillMaxSize()
                 )
             }
