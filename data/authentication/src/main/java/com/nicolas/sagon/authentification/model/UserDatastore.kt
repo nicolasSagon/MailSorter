@@ -15,8 +15,8 @@ data class UserDatastore(
     }
 }
 
-fun UserDatastore.toDomainModel(): UserBis {
-    return object : UserBis {
+fun UserDatastore.toDomainModel(): User {
+    return object : User {
         override val email: String
             get() = this@toDomainModel.email!!
         override val idToken: String
