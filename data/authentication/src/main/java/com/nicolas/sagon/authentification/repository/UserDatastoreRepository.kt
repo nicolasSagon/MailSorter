@@ -30,9 +30,9 @@ class UserDatastoreRepository(
     }
 
     override suspend fun updateUserTokens(
-        idToken: String,
-        accessToken: String,
-        refreshToken: String,
+        idToken: String?,
+        accessToken: String?,
+        refreshToken: String?,
     ) {
         Log.d("test", "idToken = $idToken; accessToken= $accessToken; refreshToken = $refreshToken")
         datastore.updateData {

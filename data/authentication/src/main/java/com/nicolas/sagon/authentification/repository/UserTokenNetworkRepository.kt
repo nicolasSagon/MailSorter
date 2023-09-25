@@ -1,6 +1,7 @@
 package com.nicolas.sagon.authentification.repository
 
 import com.nicolas.sagon.authentification.error.UserHasEmptyRefreshTokenException
+import com.nicolas.sagon.authentification.error.UserNotConnectedException
 import com.nicolas.sagon.authentification.model.GoogleSignInConfiguration
 import com.nicolas.sagon.authentification.model.User
 import com.nicolas.sagon.authentification.model.UserTokens
@@ -14,6 +15,16 @@ class UserTokenNetworkRepository(
     private val googleOauthApiService: GoogleOauthApiService,
     private val googleSignInConfiguration: GoogleSignInConfiguration,
 ) : UserTokenRepository {
+
+    override fun deleteUserSession(user: User): Flow<Unit> {
+        return flow {
+            user.accessToken?.let {
+                emit(
+                    googleOauthApiService.revokeUserToken(it)
+                )
+            } ?: error(UserNotConnectedException())
+        }
+    }
 
     override fun getUserTokens(user: User): Flow<UserTokens> {
         return flow {
@@ -32,17 +43,22 @@ class UserTokenNetworkRepository(
 
     override fun refreshUserToken(user: User): Flow<UserTokens> {
         return flow {
-            user.refreshToken?.let {
-                emit(
-                    googleOauthApiService.refreshTokens(
-                        clientId = googleSignInConfiguration.googleSignInClientId,
-                        clientSecret = googleSignInConfiguration.googleSignInClientSecret,
-                        refreshToken = it
-                    )
+            if (user.accessToken.isNullOrEmpty()) {
+                throw UserNotConnectedException()
+            }
+            if (user.refreshToken.isNullOrEmpty()) {
+                throw UserHasEmptyRefreshTokenException(
+                    idToken = user.idToken,
+                    accessToken = user.accessToken!!,
                 )
-            } ?: error(UserHasEmptyRefreshTokenException())
-        }.map {
-            it.toDomainModel()
+            }
+            emit(
+                googleOauthApiService.refreshTokens(
+                    clientId = googleSignInConfiguration.googleSignInClientId,
+                    clientSecret = googleSignInConfiguration.googleSignInClientSecret,
+                    refreshToken = user.refreshToken!!
+                ).toDomainModel()
+            )
         }
     }
 }
