@@ -1,8 +1,8 @@
 pluginManagement {
     repositories {
+        gradlePluginPortal()
         google()
         mavenCentral()
-        gradlePluginPortal()
     }
 }
 dependencyResolutionManagement {
@@ -12,14 +12,15 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
 rootProject.name = "Mail Sorter"
-include ':app'
-include ':data:authentication'
-include ':domain:authentication'
-include ':ui:authentication'
-include ':ui:core'
-include ':ui:core'
-include ':domain:navigation'
-include ':ui:home'
-include ':domain:mail'
-include ':data:mail'
+include(":app")
+include(":data:authentication")
+include(":domain:authentication")
+include(":ui:authentication")
+include(":ui:core")
+include(":ui:core")
+include(":domain:navigation")
+include(":ui:home")
+include(":domain:mail")
+include(":data:mail")
