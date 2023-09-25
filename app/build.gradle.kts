@@ -1,10 +1,10 @@
 plugins {
-    id("kotlin-kapt")
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
+    id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.plugin.serialization")
+    kotlin("kapt")
 }
 
 android {
@@ -27,25 +27,28 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
         getByName("debug") {
-            resValue("string", "GOOGLE_OAUTH_CLIENT_ID", "googleOAuthClientId")
-            resValue("string", "GOOGLE_OAUTH_CLIENT_SECRET", "googleOAuthClientSecret")
+            resValue("string", "GOOGLE_OAUTH_CLIENT_ID", getLocalProperty("googleOAuthClientId") as String)
+            resValue("string", "GOOGLE_OAUTH_CLIENT_SECRET", getLocalProperty("googleOAuthClientSecret") as String)
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "18"
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        kotlinCompilerExtensionVersion = Versions.composeCompiler
     }
     packaging {
         resources {
@@ -56,45 +59,28 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.activity:activity-compose:1.7.2")
-    implementation(platform("androidx.compose:compose-bom:2022.10.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
+    implementation(platform(Dependencies.kotlinBom))
+    implementation(platform(Dependencies.composeBom))
 
-    implementation("com.google.dagger:hilt-android:2.44")
-    implementation("androidx.navigation:navigation-compose:2.7.2")
-    implementation(project(":domain:navigation"))
-    kapt("com.google.dagger:hilt-compiler:2.44")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation(Dependencies.lifecycleRuntimeKtx)
+    implementation(Dependencies.coreKtx)
 
-    implementation(platform("com.google.firebase:firebase-bom:32.2.2"))
+    implementation(platform(Dependencies.firebaseBom))
+    implementation(Dependencies.androidDatastore)
 
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    compose()
+    retrofit()
+    hilt()
 
-    implementation(project(":data:authentication"))
-    implementation(project(":domain:authentication"))
-    implementation(project(":ui:authentication"))
-    implementation(project(":ui:core"))
-    implementation(project(":ui:home"))
+    implementation(project(Dependencies.dataAuthentication))
+    implementation(project(Dependencies.domainNavigation))
+    implementation(project(Dependencies.domainAuthentication))
+    implementation(project(Dependencies.uiCore))
+    implementation(project(Dependencies.uiAuthentication))
+    implementation(project(Dependencies.uiHome))
 
-    // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
-    implementation("com.squareup.okhttp3:okhttp:4.11.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
-
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2022.10.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    testImplementation(Dependencies.jUnit)
+    androidTest()
 }
 
 kapt {
