@@ -8,9 +8,11 @@ import com.google.android.gms.tasks.Task
 import com.nicolas.sagon.authentication.event.AuthenticationEvents
 import com.nicolas.sagon.authentication.model.safeInfo
 import com.nicolas.sagon.authentication.state.AuthenticationState
+import com.nicolas.sagon.authentification.error.UserHasEmptyRefreshTokenException
 import com.nicolas.sagon.authentification.model.GoogleSignInConfiguration
 import com.nicolas.sagon.authentification.useCase.CheckIfUserIsConnected
 import com.nicolas.sagon.authentification.useCase.GetUserAccessToken
+import com.nicolas.sagon.authentification.useCase.RevokeUserAccessToken
 import com.nicolas.sagon.authentification.useCase.SaveUser
 import com.nicolas.sagon.core.model.Screen
 import com.nicolas.sagon.core.useCase.NavigateToScreen
@@ -30,6 +32,7 @@ class AuthenticationViewModel @Inject constructor(
     private val checkIfUserIsConnected: CheckIfUserIsConnected,
     private val saveUser: SaveUser,
     private val getUserAccessToken: GetUserAccessToken,
+    private val revokeUserAccessToken: RevokeUserAccessToken,
     val googleSignInConfiguration: GoogleSignInConfiguration,
 ) : BaseViewModel<AuthenticationEvents>() {
 
@@ -65,7 +68,7 @@ class AuthenticationViewModel @Inject constructor(
             }
         } catch (e: ApiException) {
             Log.e(TAG, "Error in AuthScreen", e)
-            _uiState.value = AuthenticationState.Error("Error with the google sign in method")
+            _uiState.value = AuthenticationState.Loading
         }
     }
 
@@ -81,7 +84,13 @@ class AuthenticationViewModel @Inject constructor(
                 getUserAccessToken().collectLatest {
                     navigateToScreen(Screen.HomeScreen)
                 }
-            } catch (e: Exception) {
+            } catch (e: UserHasEmptyRefreshTokenException) {
+                Log.e(TAG, "Error when handling user connection", e)
+                // @TODO : Need to send a message to the UI to display snackbar for the error and that the user need to retry
+                _uiState.value = AuthenticationState.Error("Empty refresh token need to destroy google session")
+                revokeUserAccessToken().collectLatest {}
+            }
+            catch (e: Exception) {
                 Log.e(TAG, "Error when handling user connection", e)
                 _uiState.value = AuthenticationState.Error("Error when handling user connection")
             }
