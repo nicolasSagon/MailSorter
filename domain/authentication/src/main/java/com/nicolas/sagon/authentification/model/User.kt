@@ -7,3 +7,7 @@ interface User {
     val accessToken: String?
     val refreshToken: String?
 }
+
+fun User.isConnectedUser(): Boolean {
+    return email.isNotEmpty() && idToken.isNotEmpty() && serverToken.isNotEmpty() && !accessToken.isNullOrEmpty() && !refreshToken.isNullOrEmpty()
+}

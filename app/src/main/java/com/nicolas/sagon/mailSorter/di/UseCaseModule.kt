@@ -4,6 +4,7 @@ import com.nicolas.sagon.authentification.repository.UserRepository
 import com.nicolas.sagon.authentification.repository.UserTokenRepository
 import com.nicolas.sagon.authentification.useCase.CheckIfUserIsConnected
 import com.nicolas.sagon.authentification.useCase.GetUserAccessToken
+import com.nicolas.sagon.authentification.useCase.RevokeUserAccessToken
 import com.nicolas.sagon.authentification.useCase.SaveUser
 import dagger.Module
 import dagger.Provides
@@ -34,6 +35,17 @@ internal object UseCaseModule {
         userRepository: UserRepository,
     ): GetUserAccessToken {
         return GetUserAccessToken(
+            tokenRepository = userTokenRepository,
+            userRepository = userRepository
+        )
+    }
+
+    @Provides
+    fun provideRevokeUserAccessToken(
+        userTokenRepository: UserTokenRepository,
+        userRepository: UserRepository,
+    ): RevokeUserAccessToken {
+        return RevokeUserAccessToken(
             tokenRepository = userTokenRepository,
             userRepository = userRepository
         )

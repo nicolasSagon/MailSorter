@@ -1,5 +1,6 @@
 package com.nicolas.sagon.authentification.model
 
+import android.util.Log
 import com.nicolas.sagon.authentification.error.UserHasEmptyRefreshTokenException
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -29,7 +30,12 @@ fun UserTokenResponse.toDomainModel(): UserTokens {
         override val accessToken: String
             get() = this@toDomainModel.accessToken
         override val refreshToken: String
-            get() = this@toDomainModel.refreshToken ?: throw UserHasEmptyRefreshTokenException()
+            get() {
+                return this@toDomainModel.refreshToken ?: throw UserHasEmptyRefreshTokenException(
+                    idToken = this@toDomainModel.idToken,
+                    accessToken = this@toDomainModel.accessToken
+                )
+            }
         override val idToken: String
             get() = this@toDomainModel.idToken
 

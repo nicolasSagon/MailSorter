@@ -12,9 +12,9 @@ interface UserRepository {
     )
 
     suspend fun updateUserTokens(
-        idToken: String,
-        accessToken: String,
-        refreshToken: String
+        idToken: String? = null,
+        accessToken: String? = null,
+        refreshToken: String? = null
     )
 
     suspend fun loadUser(): User?
