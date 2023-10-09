@@ -52,12 +52,13 @@ class UserTokenNetworkRepository(
                     accessToken = user.accessToken!!,
                 )
             }
+            val response = googleOauthApiService.refreshTokens(
+                clientId = googleSignInConfiguration.googleSignInClientId,
+                clientSecret = googleSignInConfiguration.googleSignInClientSecret,
+                refreshToken = user.refreshToken!!
+            )
             emit(
-                googleOauthApiService.refreshTokens(
-                    clientId = googleSignInConfiguration.googleSignInClientId,
-                    clientSecret = googleSignInConfiguration.googleSignInClientSecret,
-                    refreshToken = user.refreshToken!!
-                ).toDomainModel()
+                response.copy(refreshToken = user.refreshToken!!).toDomainModel()
             )
         }
     }

@@ -10,7 +10,9 @@ import com.nicolas.sagon.authentication.model.safeInfo
 import com.nicolas.sagon.authentication.state.AuthenticationState
 import com.nicolas.sagon.authentification.error.UserHasEmptyRefreshTokenException
 import com.nicolas.sagon.authentification.model.GoogleSignInConfiguration
+import com.nicolas.sagon.authentification.model.formattedString
 import com.nicolas.sagon.authentification.useCase.CheckIfUserIsConnected
+import com.nicolas.sagon.authentification.useCase.GetUser
 import com.nicolas.sagon.authentification.useCase.GetUserAccessToken
 import com.nicolas.sagon.authentification.useCase.RevokeUserAccessToken
 import com.nicolas.sagon.authentification.useCase.SaveUser
@@ -32,6 +34,7 @@ class AuthenticationViewModel @Inject constructor(
     private val checkIfUserIsConnected: CheckIfUserIsConnected,
     private val saveUser: SaveUser,
     private val getUserAccessToken: GetUserAccessToken,
+    private val getUser: GetUser,
     private val revokeUserAccessToken: RevokeUserAccessToken,
     val googleSignInConfiguration: GoogleSignInConfiguration,
 ) : BaseViewModel<AuthenticationEvents>() {
@@ -44,6 +47,8 @@ class AuthenticationViewModel @Inject constructor(
         viewModelScope.launch {
             val isUserConnected = checkIfUserIsConnected()
             if (isUserConnected) {
+                val user = getUser()
+                Log.d(TAG, user?.formattedString() ?: "empty user")
                 navigateToScreen(Screen.HomeScreen)
             } else {
                 _uiState.value = AuthenticationState.NotConnected

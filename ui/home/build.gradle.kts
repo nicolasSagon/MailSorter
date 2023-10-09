@@ -51,6 +51,7 @@ dependencies {
     implementation(project(Dependencies.uiCore))
     implementation(project(Dependencies.domainNavigation))
     implementation(project(Dependencies.domainAuthentication))
+    implementation(project(Dependencies.domainMail))
 
     testImplementation(Dependencies.jUnit)
     androidTest()

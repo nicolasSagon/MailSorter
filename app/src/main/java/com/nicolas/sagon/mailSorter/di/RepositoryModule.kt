@@ -8,6 +8,9 @@ import com.nicolas.sagon.authentification.repository.UserDatastoreRepository
 import com.nicolas.sagon.authentification.repository.UserRepository
 import com.nicolas.sagon.authentification.repository.UserTokenNetworkRepository
 import com.nicolas.sagon.authentification.repository.UserTokenRepository
+import com.nicolas.sagon.mail.network.GmailApiService
+import com.nicolas.sagon.mail.repository.MailRepository
+import com.nicolas.sagon.mail.repository.MailRepositoryRemoteImp
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,5 +40,11 @@ internal object RepositoryModule {
             googleSignInConfiguration = googleSignInConfiguration
         )
     }
+
+    @Provides
+    @Singleton
+    fun provideMailRepository(
+        gmailApiService: GmailApiService,
+    ): MailRepository = MailRepositoryRemoteImp(gmailApiService)
 
 }

@@ -1,6 +1,5 @@
 package com.nicolas.sagon.authentification.model
 
-import android.util.Log
 import com.nicolas.sagon.authentification.error.UserHasEmptyRefreshTokenException
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

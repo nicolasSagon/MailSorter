@@ -38,8 +38,11 @@ object Dependencies {
     const val googleApiClient = "com.google.api-client:google-api-client-android:${Versions.googleApiClient}"
 
     const val dataAuthentication = ":data:authentication"
+    const val dataMail = ":data:mail"
+    const val domainCore = ":domain:core"
     const val domainNavigation = ":domain:navigation"
     const val domainAuthentication = ":domain:authentication"
+    const val domainMail = ":domain:mail"
     const val uiAuthentication = ":ui:authentication"
     const val uiCore = ":ui:core"
     const val uiHome = ":ui:home"

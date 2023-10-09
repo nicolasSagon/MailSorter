@@ -73,8 +73,10 @@ dependencies {
     hilt()
 
     implementation(project(Dependencies.dataAuthentication))
+    implementation(project(Dependencies.dataMail))
     implementation(project(Dependencies.domainNavigation))
     implementation(project(Dependencies.domainAuthentication))
+    implementation(project(Dependencies.domainMail))
     implementation(project(Dependencies.uiCore))
     implementation(project(Dependencies.uiAuthentication))
     implementation(project(Dependencies.uiHome))

@@ -8,8 +8,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_18
 }
 
-dependencies {
+dependencies{
     implementation(Dependencies.kotlinCoroutine)
-    implementation(project(Dependencies.domainAuthentication))
-    implementation(project(Dependencies.domainCore))
 }

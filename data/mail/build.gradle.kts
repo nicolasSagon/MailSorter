@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
@@ -36,7 +37,10 @@ dependencies {
     implementation(Dependencies.coreKtx)
 
     implementation(Dependencies.androidDatastore)
-    implementation(Dependencies.googleApiClient)
+
+    retrofit()
+
+    implementation(project(Dependencies.domainMail))
 
     testImplementation(Dependencies.jUnit)
     androidTestImplementation(Dependencies.androidExtJunit)
