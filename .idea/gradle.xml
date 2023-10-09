@@ -18,6 +18,7 @@
             <option value="$PROJECT_DIR$/data/mail" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/domain/authentication" />
+            <option value="$PROJECT_DIR$/domain/core" />
             <option value="$PROJECT_DIR$/domain/mail" />
             <option value="$PROJECT_DIR$/domain/navigation" />
             <option value="$PROJECT_DIR$/ui" />

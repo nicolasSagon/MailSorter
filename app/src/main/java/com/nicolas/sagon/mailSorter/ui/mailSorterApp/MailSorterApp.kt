@@ -15,6 +15,7 @@ import com.nicolas.sagon.authentication.screen.AuthenticationScreen
 import com.nicolas.sagon.authentication.viewModel.AuthenticationViewModel
 import com.nicolas.sagon.core.model.Screen
 import com.nicolas.sagon.core.navigation.getScreenNameRes
+import com.nicolas.sagon.home.screen.ConfigurationScreen
 import com.nicolas.sagon.home.screen.HomeScreen
 import com.nicolas.sagon.home.viewModel.HomeViewModel
 import com.nicolas.sagon.mailSorter.ui.AppTopBar
@@ -55,6 +56,11 @@ fun MailSorterApp() {
             composable(route = Screen.HomeScreen.screenName) {
                 val viewModel = hiltViewModel<HomeViewModel>()
                 HomeScreen(
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+            composable(route = Screen.ConfigurationScreen.screenName) {
+                ConfigurationScreen(
                     modifier = Modifier.fillMaxSize()
                 )
             }
